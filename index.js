@@ -58,7 +58,7 @@ showItems();
 function checkItem(){       
    if(document.querySelector('.list-group').children.length === 0){
     log.innerHTML = 'Empty list';
-   }
+   }   
 }
 
 // Create
@@ -95,10 +95,22 @@ window.addEventListener('click', e => {
 });
 
 
-function editItemName(id){
-    document.getElementById(`${id}`).style.opacity = '0.5';    
+function editItemName(id){            
+        if(document.querySelector('.form-control').attributes.id === undefined)
+        {
+        document.getElementById(`${id}`).classList.add('editName');
+        document.getElementById(`${id}`).style.opacity = '0.5';
+        document.getElementById(`${id}`).style.boxShadow = '0px 0px 19px 1px rgba(0,0,0,0.75)';    
+        }        
+        if(document.querySelector('.form-control').attributes.id != undefined){
+            document.querySelector('.form-control').removeAttribute('id');
+        }
+        if(document.querySelector('.form-control').attributes.id != `${id}`){        
+        document.getElementById(`${id}`).classList.add('editName');
+        document.getElementById(`${id}`).style.opacity = '0.5';
+        document.getElementById(`${id}`).style.boxShadow = '0px 0px 19px 1px rgba(0,0,0,0.75)';    
+        }
 }
-
 
 // Update item
 function updateItem(item) {
@@ -135,7 +147,10 @@ form.addEventListener('submit', e => {
         },800);
     }
     if(formStatus === 'update' && input.value !== '') {
-        updateItem({id: input.id, text: input.value});
+        updateItem({id: input.id, text: input.value});    
+        document.querySelector('.form-control').removeAttribute('id');
+        document.querySelectorAll('.editName').add('editNameCancel');
+        document.querySelectorAll('.editName').remove();
     }
 });
 
